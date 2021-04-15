@@ -8,50 +8,31 @@ class Board extends React.Component {
       <Square
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
+        winner={this.props.winners ? this.props.winners.includes(i) : false}
       />
     );
   }
 
   render() {
-    // const boardSquares = () => {
-    //   let boardRows = [];
-    //   let squaresRow = Array(3).fill(null);
-    //   // let temp;
-    //   for (let i = 0; i < 3; i++) {
-    //     squaresRow.map(() => {
-    //       // el = this.renderSquare(i);
-    //       return (<div>M</div>);
-    //     });
-    //     boardRows[i] = squaresRow;
-    //     squaresRow = Array(3).fill(null);
-    //   }
-    //   return boardRows;
-    // };
-    // console.log(boardSquares());
-    // return <div>{boardSquares()}</div>;
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
+    let board = [];
+    for (let i = 0; i < 3; i++) {
+      let squares = [];
+      for(let j = 0; j < 3; j++){
+        squares.push(this.renderSquare(j + (i * 3)));
+      }
+      board.push(<div className= "board-row">{squares}</div>);
+    }
+    return (<div>
+      { board }
+    </div>);
   }
   static propTypes = {
     squares: PropTypes.array,
     onClick: PropTypes.func,
+    winners: PropTypes.array,
+  };
+  static defaultProps = {
+    winners: [],
   };
 }
 

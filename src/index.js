@@ -14,6 +14,7 @@ class Game extends React.Component {
       stepNumber: 0,
       xIsNext: true,
       lastMove: [],
+      sortAscending: true
     };
   }
 
@@ -45,7 +46,13 @@ class Game extends React.Component {
       lastMove: this.state.lastMove.slice(0, step),
     });
   }
-
+  sortMoves(){
+    this.setState({
+      sortAscending: !this.state.sortAscending
+    });
+    const sortBtn = document.getElementById('sortBtn');
+    sortBtn.textContent = this.state.sortAscending ? '⬆️' : '⬇️'; 
+  }
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -77,10 +84,14 @@ class Game extends React.Component {
         );
       } else return null;
     });
+    const movesReversed = this.state.sortAscending ? moves : [...moves].reverse();
+    
     let status;
     if (winner) {
-      status = "Winner: " + winner;
-    } else {
+      status = "Winner: " + current.squares[winner[0]];
+    } else if (!winner && movesReversed.length > 9 ){
+      status = "Match Nul";
+    }else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
 
@@ -90,14 +101,15 @@ class Game extends React.Component {
           <Board
             squares={current.squares}
             onClick={(i) => this.handleClick(i)}
+            winners={winner}
           />
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ol>{movesReversed}</ol>
         </div>
         <div className="sort">
-          <button>Sort</button>
+          <button id = "sortBtn" onClick ={() => this.sortMoves()}>⬇️</button>
         </div>
       </div>
     );
@@ -120,7 +132,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return [a,b,c];
     }
   }
   return null;

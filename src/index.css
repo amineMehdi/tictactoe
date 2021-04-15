@@ -39,29 +39,14 @@ body {
   .kbd-navigation .square:focus {
     background: #ddd;
   }
-/*   
+  
   .game {
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin-top: 10%;
-  } */
+  }
   
   .game-info {
     margin-left: 20px;
-    grid-column: 2;
-    grid-row: 2;
-  }
-  .game{
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-auto-rows: minmax(40px, auto);
-  }
-  .game-board{
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .sort{
-    grid-column: 2;
-    grid-row: 1;
   }
